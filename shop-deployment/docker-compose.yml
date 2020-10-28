@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  shop-user-service:
+    image: shop-user-service:latest
+    depends_on:
+      - shop-item-service
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  shop-item-service:
+    image: shop-item-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+
+networks:
+  backend:

@@ -24,8 +24,8 @@ var googleOauthProvider = OAuthServerSettings.OAuth2ServerSettings(
     authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
     accessTokenUrl = "https://www.googleapis.com/oauth2/v3/token",
     requestMethod = HttpMethod.Post,
-    clientId = "833250522031-j9h6qrss0n0h6k0e6skbmbhdnasrnljr.apps.googleusercontent.com",
-    clientSecret = "LFFk9baRLikMzCBnFo4umB-v",
+    clientId = "xxxclientIdxxx",
+    clientSecret = "xxxclientSecret",
     defaultScopes = listOf("profile")
 )
 

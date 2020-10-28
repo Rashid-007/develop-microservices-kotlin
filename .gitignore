@@ -1,0 +1,34 @@
+# general OS stuff
+.DS_Store
+
+# conform with ADR concerning docker-compose usage (use a .env_local file)
+.env
+
+# gradle files
+.gradle/
+.idea/
+build/
+buildInfo.js
+
+# auth files
+local.properties
+
+# idea files
+*.iml
+**/.idea/*
+!.idea/codeStyles
+!.idea/saveactions_settings.xml
+.vscode/
+out/
+
+# eclipse files
+bin/
+.project
+.settings/
+.classpath
+
+# Compiled class file
+*.class
+
+# Log file
+*.log

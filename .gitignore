@@ -6,7 +6,6 @@
 
 # gradle files
 .gradle/
-.idea/
 build/
 buildInfo.js
 
@@ -32,3 +31,4 @@ bin/
 
 # Log file
 *.log
+/.idea/

@@ -2,22 +2,20 @@ package com.shop.userservice.config
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.application.ApplicationCall
-import io.ktor.auth.OAuthServerSettings
-import io.ktor.features.origin
-import io.ktor.http.HttpMethod
-import io.ktor.request.host
-import io.ktor.request.port
+import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.request.*
 
-open class SimpleJWT(secret: String){
+class SimpleJWT(secret: String){
     val algorithm = Algorithm.HMAC256(secret)
     val verifier = JWT.require(algorithm).build()
 
     fun sign(name: String): String = JWT.create().withClaim("name", name).sign(algorithm)
 }
 
-val simpleJwt =
-    SimpleJWT("my-super-secret-for-jwt")
+val simpleJwt = SimpleJWT("my-super-secret-for-jwt")
 
 var googleOauthProvider = OAuthServerSettings.OAuth2ServerSettings(
     name = "google",

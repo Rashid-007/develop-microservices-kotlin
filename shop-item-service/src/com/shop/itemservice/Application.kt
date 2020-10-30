@@ -1,19 +1,20 @@
 package com.shop.itemservice
 
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.shop.itemservice.config.*
+import com.shop.itemservice.config.Health
+import com.shop.itemservice.config.HealthStatus
+import com.shop.itemservice.config.simpleJwt
+import com.shop.itemservice.web.api.v1.routeApiV1
 import io.ktor.application.*
-import io.ktor.auth.Authentication
-import io.ktor.auth.UserIdPrincipal
-import io.ktor.auth.jwt.jwt
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.http.*
+import io.ktor.auth.*
+import io.ktor.auth.jwt.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
-import io.ktor.features.ContentNegotiation
-import io.ktor.jackson.jackson
-import com.shop.itemservice.web.api.v1.routeApiV1
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.jackson.*
+import io.ktor.response.*
+import io.ktor.routing.*
 
 /**
  *

@@ -4,35 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.shop.userservice.config.JustSellSession
-import com.shop.userservice.config.itemServiceBaseUrl
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.features.ContentNegotiation
-import io.ktor.jackson.jackson
-import io.ktor.request.receive
-import io.ktor.response.respond
-import io.ktor.routing.Route
-import io.ktor.routing.post
-import io.ktor.routing.get
-import io.ktor.routing.put
-import io.ktor.routing.route
 import com.shop.userservice.config.simpleJwt
 import com.shop.userservice.domain.*
 import com.shop.userservice.web.api.v1.dto.PurchaseListDto
 import com.shop.userservice.web.api.v1.exception.InvalidCredentialException
-import io.ktor.auth.OAuthAccessTokenResponse
-import io.ktor.auth.authenticate
-import io.ktor.auth.authentication
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.request.get
-import io.ktor.client.request.header
-import io.ktor.features.StatusPages
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respondRedirect
-import io.ktor.sessions.sessions
-import io.ktor.sessions.set
-import org.slf4j.LoggerFactory
+import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
+import io.ktor.client.request.*
+import io.ktor.features.*
+import io.ktor.http.*
+import io.ktor.jackson.*
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.sessions.*
+import kotlin.collections.Map
+import kotlin.collections.getOrPut
+import kotlin.collections.mapOf
+import kotlin.collections.set
 
 fun Route.routeApiV1(path: String) = route(path) {
     install(ContentNegotiation) {
@@ -50,6 +41,12 @@ fun Route.routeApiV1(path: String) = route(path) {
         // catch IllegalStateException and send back HTTP code 400
         exception<IllegalStateException> { cause ->
             call.respond(HttpStatusCode.BadRequest, mapOf("error" to (cause.message ?: "")))
+            throw cause
+        }
+
+        exception<Throwable> { cause ->
+            call.respond(HttpStatusCode.InternalServerError, mapOf("error" to (cause.message ?: "")))
+            //throw cause
         }
 
         exception<InvalidCredentialException> {
@@ -58,13 +55,9 @@ fun Route.routeApiV1(path: String) = route(path) {
     }
 
     post("/login") {
-        val userDto = call.receive<LoginRegister>()
-        val user = users.getOrPut(userDto.username) {
-            User(
-                userDto.username,
-                userDto.password
-            )
-        }
+        val userDto = call.receive<UserRequestDto>()
+        val user = users.getOrPut(userDto.username) { User(userDto.username, userDto.password) }
+
         if (user.password != userDto.password) throw InvalidCredentialException("Invalid credentials")
         call.respond(mapOf("token" to simpleJwt.sign(user.username)))
     }

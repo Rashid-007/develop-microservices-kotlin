@@ -1,6 +1,5 @@
 package com.shop.userservice.domain
 
-import com.shop.userservice.service.getPurchasedItems
 import java.util.*
 
 class User(val username: String, val password: String)
@@ -11,4 +10,4 @@ val users = Collections.synchronizedMap(
         .toMutableMap()
 )
 
-class LoginRegister(val username: String, val password: String)
+class UserRequestDto(val username: String, val password: String)

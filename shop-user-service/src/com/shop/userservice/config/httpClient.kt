@@ -1,8 +1,8 @@
 package com.shop.userservice.config
 
 import com.typesafe.config.ConfigFactory
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import io.ktor.config.*

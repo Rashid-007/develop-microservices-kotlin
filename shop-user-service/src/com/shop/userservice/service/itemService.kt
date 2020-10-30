@@ -17,17 +17,19 @@ import org.slf4j.LoggerFactory
     }
 }*/
 
-val logger = LoggerFactory.getLogger("HttpClient_logger")!!
+    val logger = LoggerFactory.getLogger("HttpClient_logger")!!
 
-fun getPurchasedItems(userProfile: Profile) : List<Item>? {
-    return runBlocking {
-       logger.info("Call to item-service started")
-        with(createHttpClient()) {
-            val purchasedItems = userProfile.purchasedItemsId?.map { get<Item>("${itemServiceBaseUrl}/api/v1/item/${it}") } ?: listOf()
-            close()
-            logger.info("Call to item-service ended")
-            purchasedItems
+    fun getPurchasedItems(userProfile: Profile) : List<Item>? {
+        return runBlocking {
+           logger.info("Call to item-service started")
+            with(createHttpClient()) {
+                val purchasedItems = userProfile.purchasedItemsId?.map {
+                    get<Item>("${itemServiceBaseUrl}/api/v1/item/${it}")
+                } ?: listOf()
+                close()
+                logger.info("Call to item-service ended")
+                purchasedItems
+            }
+
         }
-
     }
-}
